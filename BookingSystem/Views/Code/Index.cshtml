@@ -1,0 +1,77 @@
+﻿@model ICollection<BookingSystem.Models.CodeModel>
+
+<table>
+    <tr>
+        <th>Code</th>
+        <th>Note</th>
+        <th>Tools</th>
+    </tr>
+
+    @foreach (var code in Model)
+    {
+        <tr>
+            <td>
+                @code.Code
+            </td>
+
+            <td>
+                @if (code.Seats.Count == 1)
+                {
+                    //Code is used
+                    @code.Seats.First().Name
+                }
+                else if (code.IsGiven)
+                {
+                    @Html.Raw("Given")
+                }
+            </td>
+
+            <td>
+                @if (code.Seats.Count == 1)
+                {
+
+                }
+                else
+                {
+                    <Button data-code="@Json.Encode(code)">
+                        @if (code.IsGiven)
+                        {
+                            @Html.Raw("Mark as ungiven")
+                        }
+                        else
+                        {
+                            @Html.Raw("Mark as given")
+                        }
+                    </Button>
+                }
+            </td>
+
+
+
+        </tr>
+    }
+
+</table>
+
+<style>
+    #code {
+    }
+</style>
+@section Scripts {
+
+   
+    <script>
+        $('button').click(function () {
+            var Data = $(this).data('code');
+            console.log(Data);
+            $.get("ToggleGiven/" + Data.Code, function () {
+                location.reload();
+            });
+           
+        });
+
+
+       
+
+    </script>
+}

@@ -1,0 +1,124 @@
+﻿@model BookingSystem.Models.BookingViewModel
+@{
+    ViewBag.Title = "Booking";
+}
+
+
+<div class="Booking">
+    @foreach (var group in Model.TableGroups)
+    {
+        <div class="group">
+            @foreach (var table in group.Tables)
+            {
+                <div class="table">
+                    @foreach (var seat in table.Seats)
+                    {
+                        <div class="seat" data-marker="@Json.Encode(seat)"></div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
+<div id="popup">
+    <div id="unbooked">
+        <form>
+            <label for="name">Namn på deltagare:</label>
+            <input type="text" id="name" name="name" required placeholder="Namn">
+            <label for="code">Personlig kod:</label>
+            <input type="text" id="code" name="code" required placeholder="Kod">
+            <button>Skicka</button>
+        </form>
+    </div>
+    <div id="booked">
+        <p>Namn på deltagare: <span id="BookedName">null</span></p>
+    </div>
+</div>
+
+
+<style>
+    .Booking {
+        display: flex;
+        justify-content: space-between;
+        max-width: 500px;
+    }
+    .active {
+        display: block !important;
+        visibility: visible !important;
+    }
+    #booked {
+        display: none;
+        visibility: hidden;
+    }
+    #unbooked {
+        visibility: hidden;
+        display: none
+    }
+    .popup{
+        background-color: #000;
+        opacity: 50;
+        visibility: hidden;
+    }
+    .group {
+        width: 100px;
+    }
+
+    .table {
+        display: inline-block;
+        width: 50%;
+        float: left;
+    }
+
+    .seat {
+        box-sizing: border-box;
+        width: 50px;
+        height: 50px;
+        border: 2px solid black;
+        background-color: green;
+    }
+
+    .booked {
+        background-color: red;
+    }
+    .selected {
+        background-color: orange;
+    }
+</style>
+@section Scripts {
+
+
+    <script>
+        $('[data-marker]').each(function () {
+            var Data = $(this).data('marker');
+            
+            if (Data.IsBooked) {
+                $(this).addClass("booked")
+            }
+        });
+
+
+        $('.seat').click(function () {
+            $(".seat").removeClass("selected")
+            var Data = $(this).data('marker');
+            var popup = $("#popup")
+            popup.addClass("active")
+            if (Data.IsBooked) {
+                $("#unbooked").removeClass("active")
+
+                $("#booked").addClass("active")
+                $("#BookedName").text(Data.Name);
+            }
+            else {
+                //remove other
+                $("#booked").removeClass("active");
+
+                //style seat
+                $(this).addClass("selected");
+
+                $("#unbooked").addClass("active")
+                
+            }
+        });
+
+    </script>
+}
