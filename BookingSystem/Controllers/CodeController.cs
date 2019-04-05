@@ -15,7 +15,7 @@ namespace BookingSystem.Controllers
         {
             BookingDbContext db = new BookingDbContext();
             var codes = db.Codes
-                .Include("Seats")
+                .Include("Seat")
                 .ToList();
                 
             return View(codes);

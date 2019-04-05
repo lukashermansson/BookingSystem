@@ -15,10 +15,11 @@
             </td>
 
             <td>
-                @if (code.Seats.Count == 1)
+                
+                @if (code.Seat != null)
                 {
                     //Code is used
-                    @code.Seats.First().Name
+                    @code.Seat.Name
                 }
                 else if (code.IsGiven)
                 {
@@ -27,7 +28,7 @@
             </td>
 
             <td>
-                @if (code.Seats.Count == 1)
+                @if (code.Seat != null)
                 {
 
                 }

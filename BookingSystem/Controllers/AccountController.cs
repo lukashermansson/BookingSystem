@@ -133,7 +133,7 @@ namespace BookingSystem.Controllers
                     return View(model);
             }
         }
-
+        /*
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -171,7 +171,7 @@ namespace BookingSystem.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        */
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

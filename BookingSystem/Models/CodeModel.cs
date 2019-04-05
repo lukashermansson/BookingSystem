@@ -14,14 +14,11 @@ namespace BookingSystem.Models
         public String Code { get; set; }
         public bool IsGiven { get; set; }
 
-        [ScriptIgnore]
         
-        public virtual ICollection<SeatModel> Seats { get; set; }
+        
+        public SeatModel Seat { get; set; }
 
-        public CodeModel()
-        {
-            Seats = new List<SeatModel>();
-        }
+        
     }
 
    

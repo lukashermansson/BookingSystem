@@ -17,7 +17,7 @@ namespace BookingSystem.Controllers
             var tablegroups = db.TableGroups
                 .Include("Tables")
                 .Include("Tables.Seats")
-                .Include("Tables.Seats.code");
+                .Include("Tables.Seats.codes");
             var model = new BookingViewModel { TableGroups = tablegroups.ToList() };
             return View(model);
         }

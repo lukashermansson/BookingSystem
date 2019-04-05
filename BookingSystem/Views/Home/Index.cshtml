@@ -13,6 +13,7 @@
                 <div class="table">
                     @foreach (var seat in table.Seats)
                     {
+                        
                         <div class="seat" data-marker="@Json.Encode(seat)"></div>
                     }
                 </div>
@@ -22,7 +23,8 @@
 </div>
 <div id="popup">
     <div id="unbooked">
-        <form>
+        <form id="bookingForm">
+            <p id="error"></p>
             <label for="name">Namn på deltagare:</label>
             <input type="text" id="name" name="name" required placeholder="Namn">
             <label for="code">Personlig kod:</label>
@@ -88,6 +90,30 @@
 
 
     <script>
+        $("#bookingForm").submit(function (e) {
+            var name = $("#name").val();
+            var code = $("#code").val();
+            var seat = $("#unbooked").data("seat");
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Booking/",
+                data: {
+                    "seat": seat,
+                    "Name": name,
+                    "Code": code
+                }
+            }).done(function (data) {
+                location.reload();
+            }).fail(function (data) {
+                    $("#error").text(data.responseJSON.ModelState.error[0])
+            });
+
+            
+            e.preventDefault();
+            return false;
+        });
+
         $('[data-marker]').each(function () {
             var Data = $(this).data('marker');
             
@@ -115,10 +141,14 @@
                 //style seat
                 $(this).addClass("selected");
 
-                $("#unbooked").addClass("active")
+                $("#unbooked").addClass("active");
+                $("#unbooked").data("seat", Data.Id);
+                
                 
             }
         });
+
+        
 
     </script>
 }
